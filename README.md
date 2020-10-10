@@ -82,7 +82,7 @@ After finishing your required elements, you can push your work further. These go
 
 - [x] Toggle form component for gluten free crust
 - [x] Turn form element sections into nested routes
-- [ ] Test more of the application with Cypress
+- [x] Test more of the application with Cypress
 - [ ] Build UI for the eventuality of a network error when POSTing the order
 - [ ] Add functionality to your order button that it leads to a Congrats! Pizza is on it's way! page **and** returns a database record of the whole order
 

@@ -21,14 +21,29 @@ describe("Signup Form Tests", function () {
         expect(val).to.have.length.of.at.least(1);
       });
 
+    // Go to the new route
+    cy.get(".pizza-size legend a").click();
+
     // Check the size field
     cy.get("[data-cy=size]").select("Medium").should('have.value', 'Medium');
     
+    // Go to the new route
+    cy.get(".checkboxes legend a").click();
+
     // Check the toppings checkbox
     cy.get("[data-cy=pepperoni]").click().should('be.checked');
     cy.get("[data-cy=sausage]").click().should('be.checked');
     cy.get("[data-cy=ham]").click().should('be.checked');
     cy.get("[data-cy=onion]").click().should('be.checked');
+
+    // Go to the new route
+    cy.get(".pizza-substitute legend a").click();
+
+    // Check if the toggle btn works
+    cy.get(".pizza-substitute .toggle-field").click();
+
+    // Go to the new route
+    cy.get(".pizza-extra legend a").click();
 
     // Check the instructions field
     cy.get("[data-cy=instructions]")
@@ -43,7 +58,7 @@ describe("Signup Form Tests", function () {
     cy.get("pre").should("exist");
 
     // Check if the form cleared
-    cy.get(".pizza-form form")
+    cy.get("#pizza-form form")
       .children()
       .should(($input) => {
         const val = $input.val();

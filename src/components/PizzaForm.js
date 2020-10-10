@@ -173,7 +173,7 @@ export default function PizzaForm() {
           </Route>
         </fieldset>
 
-        <fieldset>
+        <fieldset class="pizza-size">
           <legend><Link to="/pizza/size">Pizza Size</Link></legend>
 
           <Route path="/pizza/size">
@@ -226,7 +226,7 @@ export default function PizzaForm() {
           </Route>
         </fieldset>
 
-        <fieldset>
+        <fieldset className="pizza-substitute">
           <legend><Link to="/pizza/substitute">Choice of Substitute</Link></legend>
 
           <Route path="/pizza/substitute">
@@ -240,7 +240,7 @@ export default function PizzaForm() {
           </Route>       
         </fieldset>
 
-        <fieldset>
+        <fieldset className="pizza-extra">
           <legend><Link to="/pizza/extra">Special Instructions</Link></legend>
 
           <Route path="/pizza/extra">

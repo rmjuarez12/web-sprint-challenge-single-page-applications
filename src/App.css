@@ -127,6 +127,7 @@ header .logo span {
   display: block;
   width: 380px;
   margin: -10px auto 0;
+  cursor: pointer;
 }
 
 .slider .layer a:hover,
@@ -211,9 +212,20 @@ header .logo span {
   transition: 0.3s all;
 }
 
-#pizza-form .invalid input {
+#pizza-form .invalid input,
+#pizza-form .invalid select {
   background: #ed3844;
   border-color: #ed3844 !important;
+  color: white;
+}
+
+#pizza-form .errors {
+  background: #ed3844;
+  padding: 20px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin: 5px;
 }
 
 .error-mssg {

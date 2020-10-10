@@ -43,7 +43,16 @@ export default function ThankYou(props) {
               
               <span>Here are your order details:</span>
 
-              <span><pre>{JSON.stringify(props.order, null, 2)}</pre></span>
+              {props.order !== null && Object.keys(props.order).map(key =>{ 
+                  let keyVal = props.order[key];
+
+                  if(props.order[key] === true) {
+                    keyVal = "yes";
+                  }
+
+                  return (<span value={key} key={key}>{key}: {keyVal}</span>)
+                }
+              )}
             </div>
 
             <button onClick={newPizzaFunc}>Order Another One?</button>

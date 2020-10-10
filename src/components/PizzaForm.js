@@ -19,6 +19,7 @@ export default function PizzaForm(props) {
 
   // Set the state for the errors for validation
   const [ errors, setErrors ] = useState({});
+  console.log(errors)
 
   // Set state for to disable submit button
   const [disableSubmit, setDisableSubmit] = useState(false);
@@ -49,7 +50,7 @@ export default function PizzaForm(props) {
   // Form schema to be used for form validation
   const formSchema = yup.object().shape({
     name: yup.string().required("Name is required."),
-    size: yup.string().matches(/\D/g),
+    size: yup.string().matches(/\D/g, "Please choose a size"),
     pepperoni: yup.boolean(),
     sausage: yup.boolean(),
     ham: yup.boolean(),
@@ -152,7 +153,7 @@ export default function PizzaForm(props) {
 
   const resetForm = () => {
     setPost(null);
-    console.log("Reset post", post);
+    setPizza({name: "", size: "0", "glutten-free": false});
 
     gsap.to("#pizza-form", {opacity: 1, scale: 1, display: "flex", duration: 1});
     gsap.to("#pizza-form form", {x:0, opacity: 1, delay: 1});
@@ -196,6 +197,7 @@ export default function PizzaForm(props) {
                 value={pizza.size !== undefined ? pizza.size : ""}
                 selections={["Small", "Medium", "Large"]}
                 handleChange={handleChange}
+                error={errors.size}
               />
             </Route>
           </fieldset>
@@ -267,6 +269,12 @@ export default function PizzaForm(props) {
           </fieldset>
 
           <input type="submit" value="Submit Form" disabled={disableSubmit} data-cy="submit" />
+
+          {Object.keys(errors).length > 0 && <div className="errors">
+            {Object.keys(errors).map(key => 
+                <p value={key} key={key}>{errors[key]}</p>
+            )}
+          </div>}
 
         </form>
       </div>    

@@ -21,7 +21,7 @@ export default function FormField(props) {
     
     case "select":
       return (
-        <label htmlFor={props.name} className={`${props.error !== "" ? "terms invalid" : "terms valid"}`}>
+        <label htmlFor={props.name} className={`${(props.error !== "" && props.error !== undefined) ? "invalid" : "valid"}`}>
           {props.label}
           
           <select name={props.name} value={props.value} onChange={props.handleChange} data-cy={props.name}>

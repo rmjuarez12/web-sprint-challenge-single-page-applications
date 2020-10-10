@@ -11,6 +11,7 @@ export default function FormField(props) {
             id={props.name}
             onChange={props.handleChange}
             checked={props.value}
+            data-cy={props.name}
           />
           {props.label}
 
@@ -23,7 +24,7 @@ export default function FormField(props) {
         <label htmlFor={props.name} className={`${props.error !== "" ? "terms invalid" : "terms valid"}`}>
           {props.label}
           
-          <select name={props.name} value={props.value} onChange={props.handleChange}>
+          <select name={props.name} value={props.value} onChange={props.handleChange} data-cy={props.name}>
             <option value="0">Select Size</option>
 
             {props.selections.map((selection, index) => {
@@ -44,6 +45,7 @@ export default function FormField(props) {
             id={props.name}
             onChange={props.handleChange}
             value={props.value}
+            data-cy={props.name}
           >
           </textarea>
 
@@ -61,6 +63,7 @@ export default function FormField(props) {
             id={props.name}
             onChange={props.handleChange}
             value={props.value}
+            data-cy={props.name}
           />
 
           {props.error !== "" && <span className="error-mssg">{props.error}</span>}

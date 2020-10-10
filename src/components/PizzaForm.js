@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import * as yup from "yup";
 import { gsap } from "gsap";
+import axios from "axios";
 
 // Import Components
 import FormField from "./FormField";
@@ -17,6 +18,12 @@ export default function PizzaForm() {
   // Set state for to disable submit button
   const [disableSubmit, setDisableSubmit] = useState(false);
 
+  // Set a state in case we get server error
+  const [serverError, setServerError] = useState(null);
+
+  // Set a state for the post data
+  const [post, setPost] = useState(null);
+
   // Handle the change of form fields
   const handleChange = (e) => {
     e.persist();
@@ -28,7 +35,13 @@ export default function PizzaForm() {
 
   // Form schema to be used for form validation
   const formSchema = yup.object().shape({
-    name: yup.string().required("Name is required."), // must be a string or else error
+    name: yup.string().required("Name is required."),
+    size: yup.string(),
+    pepperoni: yup.boolean(),
+    sausage: yup.boolean(),
+    ham: yup.boolean(),
+    onion: yup.boolean(),
+    instructions: yup.string(),
   });
 
   // Form to catch any errors if the form did not validated
@@ -75,7 +88,20 @@ export default function PizzaForm() {
         setPizza({name: ""});
 
         // Submit the form
-        // props.formSubmission(user);
+        axios
+          .post("https://reqres.in/api/users", pizza)
+          .then((resp) => {
+            // update temp state with value from API to display in <pre>
+            setPost(resp.data);
+
+            // if successful request, clear any server errors
+            setServerError(null);
+          })
+          .catch((err) => {
+            // this is where we could create a server error in the form! if API request fails, say for authentication (that user doesn't exist in our DB),
+            // set serverError
+            setServerError("oops! something happened!");
+          });
       } else {
         // Add a little animation if not valid
         const errorAnim = gsap.timeline({ repeat: 0, repeatDelay: 0 });
@@ -160,6 +186,8 @@ export default function PizzaForm() {
 
         <input type="submit" value="Submit Form" disabled={disableSubmit} />
       </form>
+
+      {post !== null && <pre>{JSON.stringify(post, null, 2)}</pre>}
     </div>
   )
 }

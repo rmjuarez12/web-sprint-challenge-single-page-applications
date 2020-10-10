@@ -55,7 +55,7 @@ export default function FormField(props) {
 
     default:
       return (
-        <label htmlFor={props.name} className={`${(props.error !== "" && props.error != undefined) ? "invalid" : "valid"}`}>
+        <label htmlFor={props.name} className={`${(props.error !== "" && props.error !== undefined) ? "invalid" : "valid"}`}>
           {props.label}
           <input
             type={props.type}

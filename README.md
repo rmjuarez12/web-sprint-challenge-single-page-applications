@@ -80,8 +80,8 @@ In your solution, it is essential that you follow best practices and produce cle
 
 After finishing your required elements, you can push your work further. These goals may or may not be things you have learned in this module but they build on the material you just studied. Time allowing, stretch your limits and see if you can deliver on the following optional goals:
 
-- [ ] Toggle form component for gluten free crust
-- [ ] Turn form element sections into nested routes
+- [x] Toggle form component for gluten free crust
+- [x] Turn form element sections into nested routes
 - [ ] Test more of the application with Cypress
 - [ ] Build UI for the eventuality of a network error when POSTing the order
 - [ ] Add functionality to your order button that it leads to a Congrats! Pizza is on it's way! page **and** returns a database record of the whole order

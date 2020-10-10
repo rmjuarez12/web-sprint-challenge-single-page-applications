@@ -54,19 +54,23 @@ describe("Signup Form Tests", function () {
     // Check the terms field
     cy.get("[data-cy=submit]").click();
 
+    // Wait for the submission
+    cy.wait(2000);
+
     // Check if the form properly submitted and returned a value output
     cy.get("pre").should("exist");
 
-    // Check if the form cleared
-    cy.get("#pizza-form form")
-      .children()
-      .should(($input) => {
-        const val = $input.val();
+    // Wait for the entrance
+    cy.wait(2000);
 
-        // Check to see if the value of the field is at least 1 character long
-        expect(val.length).to.be.lessThan(1);
-      });
+    // Check if we can go back to the form
+    cy.get(".layer button").click();
 
+    // Wait for the reload
+    cy.wait(4000);
+
+    // Check if the form is visibla again
+    cy.get('#pizza-form').should('be.visible')
 
   });
 });

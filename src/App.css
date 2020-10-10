@@ -5,6 +5,7 @@
 
 body {
   font-family: "Montserrat", sans-serif;
+  background: black;
 }
 
 h1,
@@ -25,12 +26,20 @@ button {
   margin: 0 auto;
 }
 
+main {
+  position: relative;
+  z-index: 100;
+}
+
 /* Header Styles */
 
 header {
   -webkit-box-shadow: 2px 2px 15px 1px #000000;
   box-shadow: 2px 2px 15px 1px #000000;
   border-bottom: #ed3844 5px solid;
+  z-index: 200;
+  position: relative;
+  background-color: black;
 }
 
 header nav ul {
@@ -43,7 +52,7 @@ header nav a {
   text-decoration: none;
   padding: 10px 20px;
   font-weight: bold;
-  color: black;
+  color: white;
 }
 
 header nav a:hover,
@@ -60,7 +69,7 @@ header .container {
 }
 
 header .logo {
-  color: black;
+  color: white;
   font-size: 25px;
   font-weight: bold;
 }
@@ -73,12 +82,11 @@ header .logo span {
 
 .slider {
   background-color: black;
-  overflow: hidden;
 }
 
 .slider .slide {
   width: 100vw;
-  height: 35vw;
+  min-height: 100vh;
   background-position: center;
   background-size: cover;
   display: flex;
@@ -90,7 +98,8 @@ header .logo span {
   text-align: center;
 }
 
-.slider .layer h3 {
+.slider .layer h3,
+.slider .layer .heading {
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 20px 10px;
@@ -99,14 +108,16 @@ header .logo span {
   text-transform: uppercase;
 }
 
-.slider .layer h3 span {
+.slider .layer h3 span,
+.slider .layer .heading span {
   font-size: 35px;
   display: block;
   text-transform: capitalize !important;
   padding-bottom: 5px;
 }
 
-.slider .layer a {
+.slider .layer a,
+.slider .layer button {
   background: #fff;
   padding: 10px 25px;
   font-size: 30px;
@@ -114,18 +125,18 @@ header .logo span {
   color: #ed3844;
   font-weight: bold;
   display: block;
-  width: 200px;
+  width: 380px;
   margin: -10px auto 0;
 }
 
-.slider .layer a:hover {
+.slider .layer a:hover,
+.slider .layer button:hover {
   transform: scale(1.1);
 }
 
 /* Form Page Styles */
 
 #pizza-form {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -262,6 +273,11 @@ header .logo span {
   border: black 2px solid;
   position: relative;
   z-index: 10;
+  transition: 0.3s all;
+}
+
+#pizza-form .toggle-field.active .toggle-btn {
+  transform: translateX(19px);
 }
 
 #pizza-form .toggle-bar {
@@ -271,6 +287,11 @@ header .logo span {
   position: absolute;
   z-index: 1;
   left: 0;
+  transition: 0.3s all;
+}
+
+#pizza-form .toggle-field.active .toggle-bar {
+  background: green;
 }
 
 #pizza-form .toggle-field {

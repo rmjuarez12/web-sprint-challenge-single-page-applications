@@ -6,16 +6,16 @@ import axios from "axios";
 
 // Import Components
 import FormField from "./FormField";
+import ThankYou from "./ThankYou";
 
 // Import Assets
 import pizzaImg from './../Assets/pizza-make.jpg';
-import { Route, useRouteMatch, Link } from 'react-router-dom';
+import { Route, useRouteMatch, Link, Redirect } from 'react-router-dom';
 
-export default function PizzaForm() {
+export default function PizzaForm(props) {
 
   // Set the state for the pizza object
-  const [ pizza, setPizza ] = useState({name: ""});
-  console.log(pizza);
+  const [ pizza, setPizza ] = useState({name: "", size: "0", "glutten-free": false});
 
   // Set the state for the errors for validation
   const [ errors, setErrors ] = useState({});
@@ -29,17 +29,12 @@ export default function PizzaForm() {
   // Set a state for the post data
   const [post, setPost] = useState(null);
 
-  const match = useRouteMatch('/pizza/');
-
   // Animation whenever the component loads
   useEffect(() => {
-    
 
-    if(match) {
-      gsap.from("#pizza-form", {opacity: 0, scale: 1.1, duration: 1,});
-      gsap.from("#pizza-form form", {opacity: 0, scale: 1.1, duration: 1, delay: 1});
-    }
-    
+      gsap.from("#pizza-form", {opacity: 0, scale: 0.9, duration: 1});
+      gsap.from("#pizza-form form", {opacity: 0, duration: 1, delay: 1});
+
   }, []);
 
   // Handle the change of form fields
@@ -54,7 +49,7 @@ export default function PizzaForm() {
   // Form schema to be used for form validation
   const formSchema = yup.object().shape({
     name: yup.string().required("Name is required."),
-    size: yup.string(),
+    size: yup.string().matches(/\D/g),
     pepperoni: yup.boolean(),
     sausage: yup.boolean(),
     ham: yup.boolean(),
@@ -101,14 +96,20 @@ export default function PizzaForm() {
         setErrors({});
 
         // Clear the form
-        setPizza({name: ""});
+        setPizza({name: "", "glutten-free": false});
+
+        gsap.to("#pizza-form form", {opacity: 0, x: "-100vw", duration: 1});
+        gsap.to("#pizza-form", {opacity: 0, scale: 0.5, duration: 1, display: "none", delay: 1});
 
         // Submit the form
-        axios
+        setTimeout(() => {
+          axios
           .post("https://reqres.in/api/users", pizza)
           .then((resp) => {
             // update temp state with value from API to display in <pre>
             setPost(resp.data);
+
+            console.log("Post", resp.data);
 
             // if successful request, clear any server errors
             setServerError(null);
@@ -118,6 +119,8 @@ export default function PizzaForm() {
             // set serverError
             setServerError("oops! something happened!");
           });
+        }, 2000)
+        
       } else {
         // Add a little animation if not valid
         const errorAnim = gsap.timeline({ repeat: 0, repeatDelay: 0 });
@@ -140,124 +143,135 @@ export default function PizzaForm() {
   const toggleBtn = (fieldName) => {
 
     if(pizza[fieldName] === false || pizza[fieldName] === undefined) {
-      gsap.to("#pizza-form .toggle-btn", {x: 20, duration: 0.5});
-      gsap.to("#pizza-form .toggle-bar", {backgroundColor: "green", duration: 0.5});
       setPizza({...pizza, [fieldName]: true});
     } else {
-      gsap.to("#pizza-form .toggle-btn", {x: 0, duration: 0.5});
-      gsap.to("#pizza-form .toggle-bar", {backgroundColor: "#ed3844", duration: 0.5});
       setPizza({...pizza, [fieldName]: false});
     }
     
   }
 
+  const resetForm = () => {
+    setPost(null);
+    console.log("Reset post", post);
+
+    gsap.to("#pizza-form", {opacity: 1, scale: 1, display: "flex", duration: 1});
+    gsap.to("#pizza-form form", {x:0, opacity: 1, delay: 1});
+  }
+
   return (
-    <div id="pizza-form">
-      <form onSubmit={handleSubmission}>
-        <h3>Build Your Own Pizza</h3>
+    <div id="pizza-form-page">
+      <Route exact path="/pizza/thanks">
+        <ThankYou order={post} resetForm={resetForm} />
+      </Route> 
+      
+      <div id="pizza-form">
+        <form onSubmit={handleSubmission}>
+          <h3>Build Your Own Pizza</h3>
 
-        <img src={pizzaImg} alt="Make Pizza" />
+          <img src={pizzaImg} alt="Make Pizza" />
 
-        <fieldset>
-          <legend><Link to="/pizza">User Information</Link></legend>
+          <fieldset>
+            <legend><Link to="/pizza">User Information</Link></legend>
 
-          <Route exact path="/pizza">
-            <FormField
-              name="name"
-              type="text"
-              label="Name"
-              value={pizza.name !== undefined ? pizza.name : ""}
-              handleChange={handleChange}
-              error={errors.name}
-            />
-          </Route>
-        </fieldset>
+            <Route exact path="/pizza">
+              <FormField
+                name="name"
+                type="text"
+                label="Name"
+                value={pizza.name !== undefined ? pizza.name : ""}
+                handleChange={handleChange}
+                error={errors.name}
+              />
+            </Route>
+          </fieldset>
 
-        <fieldset class="pizza-size">
-          <legend><Link to="/pizza/size">Pizza Size</Link></legend>
+          <fieldset className="pizza-size">
+            <legend><Link to="/pizza/size">Pizza Size</Link></legend>
 
-          <Route path="/pizza/size">
-            <FormField
-              name="size"
-              type="select"
-              label="Select Pizza Size"
-              value={pizza.size !== undefined ? pizza.size : ""}
-              selections={["Small", "Medium", "Large"]}
-              handleChange={handleChange}
-            />
-          </Route>
-        </fieldset>
+            <Route path="/pizza/size">
+              <FormField
+                name="size"
+                type="select"
+                label="Select Pizza Size"
+                value={pizza.size !== undefined ? pizza.size : ""}
+                selections={["Small", "Medium", "Large"]}
+                handleChange={handleChange}
+              />
+            </Route>
+          </fieldset>
 
-        <fieldset className="checkboxes">
-          <legend><Link to="/pizza/toppings">Toppings</Link></legend>
+          <fieldset className="checkboxes">
+            <legend><Link to="/pizza/toppings">Toppings</Link></legend>
 
-          <Route path="/pizza/toppings">
-            <FormField
-              name="pepperoni"
-              type="checkbox"
-              label="Pepperoni"
-              value={pizza.pepperoni !== undefined ? pizza.pepperoni : ""}
-              handleChange={handleChange}
-            />
+            <Route path="/pizza/toppings">
+              <FormField
+                name="pepperoni"
+                type="checkbox"
+                label="Pepperoni"
+                value={pizza.pepperoni !== undefined ? pizza.pepperoni : ""}
+                handleChange={handleChange}
+              />
 
-            <FormField
-              name="sausage"
-              type="checkbox"
-              label="Sausage"
-              value={pizza.sausage !== undefined ? pizza.sausage : ""}
-              handleChange={handleChange}
-            />
+              <FormField
+                name="sausage"
+                type="checkbox"
+                label="Sausage"
+                value={pizza.sausage !== undefined ? pizza.sausage : ""}
+                handleChange={handleChange}
+              />
 
-            <FormField
-              name="ham"
-              type="checkbox"
-              label="Ham"
-              value={pizza.ham !== undefined ? pizza.ham : ""}
-              handleChange={handleChange}
-            />
+              <FormField
+                name="ham"
+                type="checkbox"
+                label="Ham"
+                value={pizza.ham !== undefined ? pizza.ham : ""}
+                handleChange={handleChange}
+              />
 
-            <FormField
-              name="onion"
-              type="checkbox"
-              label="Onion"
-              value={pizza.onion !== undefined ? pizza.onion : ""}
-              handleChange={handleChange}
-            />
-          </Route>
-        </fieldset>
+              <FormField
+                name="onion"
+                type="checkbox"
+                label="Onion"
+                value={pizza.onion !== undefined ? pizza.onion : ""}
+                handleChange={handleChange}
+              />
+            </Route>
+          </fieldset>
 
-        <fieldset className="pizza-substitute">
-          <legend><Link to="/pizza/substitute">Choice of Substitute</Link></legend>
+          <fieldset className="pizza-substitute">
+            <legend><Link to="/pizza/substitute">Choice of Substitute</Link></legend>
 
-          <Route path="/pizza/substitute">
-            <div className="toggle-field" onClick={() => toggleBtn("glutten-free")}>
-              <div className="toggle-switch">
-                <div className="toggle-btn"></div>
-                <div className="toggle-bar"></div>
-              </div>
-              <label>Glutten Free Crust (+ $1.00)</label>
-            </div>   
-          </Route>       
-        </fieldset>
+            <Route path="/pizza/substitute">
+              <div className={`toggle-field ${pizza["glutten-free"] ? "active" : ""}`} onClick={() => toggleBtn("glutten-free")}>
+                <div className="toggle-switch">
+                  <div className="toggle-btn"></div>
+                  <div className="toggle-bar"></div>
+                </div>
+                <label>Glutten Free Crust (+ $1.00)</label>
+              </div>   
+            </Route>       
+          </fieldset>
 
-        <fieldset className="pizza-extra">
-          <legend><Link to="/pizza/extra">Special Instructions</Link></legend>
+          <fieldset className="pizza-extra">
+            <legend><Link to="/pizza/extra">Special Instructions</Link></legend>
 
-          <Route path="/pizza/extra">
-            <FormField
-              name="instructions"
-              type="textarea"
-              label="Anything to add?"
-              value={pizza.instructions !== undefined ? pizza.instructions : ""}
-              handleChange={handleChange}
-            />
-          </Route>
-        </fieldset>
+            <Route path="/pizza/extra">
+              <FormField
+                name="instructions"
+                type="textarea"
+                label="Anything to add?"
+                value={pizza.instructions !== undefined ? pizza.instructions : ""}
+                handleChange={handleChange}
+              />
+            </Route>
+          </fieldset>
 
-        <input type="submit" value="Submit Form" disabled={disableSubmit} data-cy="submit" />
+          <input type="submit" value="Submit Form" disabled={disableSubmit} data-cy="submit" />
 
-        {post !== null && <pre>{JSON.stringify(post, null, 2)}</pre>}
-      </form>
+        </form>
+      </div>    
+
+      {post !== null && <Redirect to="/pizza/thanks" />} 
     </div>
   )
 }

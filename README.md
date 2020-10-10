@@ -30,20 +30,28 @@ Commit your code regularly and meaningfully. This helps both you (in case you ev
 
 Demonstrate your understanding of this week's concepts by answering the following free-form questions. Edit this document to include your answers after each question.
 
-1. In 1-2 sentences, explain what React's `useRouteMatch` hook is used for.
-1. How would you explain form validation to someone who has never programmed before?
+- In 1-2 sentences, explain what React's `useRouteMatch` hook is used for.
+
+**A: The hook `useRouteMatch` returns an object the contains the data of the current route. It allows us to specify what content to render in a certain route, depending on what the `useRouteMatch` hook returns. The data inside the object could be parameters we specified in a route, or the path of the current route.**
+
+- How would you explain form validation to someone who has never programmed before?
+
+**A: Form validation is a way to ensure that the data that the form collects is the data we want. For example, for an email, we would need to validate whether or not the data entered is an actual email. By validating that and confirming it is, we can rest assure that what we are collecting is in fact an email and not a different type of data. Simply put, validation is the process to ensure we don't collect the wrong type of data.**
+
 1. In 1-2 sentences, define end to end testing.
+
+**A: End to end testing is the process in which we create an environment in which we can create a series of tests the app goes through, in order to ensure that it performs as we expect it to. These tests are run automatically, depending on what we ask them to do. For example, we can create a series of test that goes through a form, and we can do several types of tests to ensure it validates the data entered in the form.**
 
 ## Instructions
 
 ### Task 1: Project Set Up
 
-- [ ] Create a forked copy of this project
-- [ ] Add your team lead as collaborator on Github
-- [ ] Clone your OWN version of the repository (Not Lambda's by mistake!)
-- [ ] Create a new branch: `git checkout -b <firstName-lastName>`
-- [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly
-- [ ] Push commits: `git push origin <firstName-lastName>`
+- [x] Create a forked copy of this project
+- [x] Add your team lead as collaborator on Github
+- [x] Clone your OWN version of the repository (Not Lambda's by mistake!)
+- [x] Create a new branch: `git checkout -b <firstName-lastName>`
+- [x] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly
+- [x] Push commits: `git push origin <firstName-lastName>`
 
 ### Task 2: Project Requirements
 

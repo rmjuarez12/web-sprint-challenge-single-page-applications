@@ -15,13 +15,15 @@ const App = () => {
     <Router>
       <Header />
 
-      <Route exact path="/">
-        <Homepage />
-      </Route>
+      <main>
+        <Route exact path="/">
+          <Homepage />
+        </Route>
 
-      <Route path="/pizza">
-        <PizzaForm />
-      </Route>
+        <Route path="/pizza">
+          <PizzaForm />
+        </Route>
+      </main>
     </Router>
   );
 };

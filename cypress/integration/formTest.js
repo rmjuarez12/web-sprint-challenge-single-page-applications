@@ -20,6 +20,9 @@ describe("Signup Form Tests", function () {
         // Check to see if the value of the field is at least 1 character long
         expect(val).to.have.length.of.at.least(1);
       });
+
+    // Check the size field
+    cy.get("[data-cy=size]").select("Medium").should('have.value', 'Medium');
     
     // Check the toppings checkbox
     cy.get("[data-cy=pepperoni]").click().should('be.checked');
@@ -32,21 +35,23 @@ describe("Signup Form Tests", function () {
       .type("I have some very special instructions")
       .should('have.value', 'I have some very special instructions');
 
-    // Check the email field
-    // cy.get("[data-cy=email]")
-    //   .type("rmjuarez12@gmail.com")
-    //   .should(($input) => {
-    //     const val = $input.val();
+    // Check the submission
+    // Check the terms field
+    cy.get("[data-cy=submit]").click();
 
-    //     // Check to see if the value typed equals to the value of the field
-    //     expect(val).to.match(/rmjuarez12@gmail.com/);
+    // Check if the form properly submitted and returned a value output
+    cy.get("pre").should("exist");
 
-    //     // Check to see if the value of the field is at least 1 character long
-    //     expect(val).to.have.length.of.at.least(1);
+    // Check if the form cleared
+    cy.get(".pizza-form form")
+      .children()
+      .should(($input) => {
+        const val = $input.val();
 
-    //     // Check if the email is an actual email by checking if it has an "@"
-    //     expect(val).to.include("@");
-    //   });
+        // Check to see if the value of the field is at least 1 character long
+        expect(val.length).to.be.lessThan(1);
+      });
+
 
   });
 });

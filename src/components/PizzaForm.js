@@ -1,5 +1,5 @@
 // Import Dependencies
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as yup from "yup";
 import { gsap } from "gsap";
 import axios from "axios";
@@ -7,10 +7,14 @@ import axios from "axios";
 // Import Components
 import FormField from "./FormField";
 
+// Import Assets
+import pizzaImg from './../Assets/pizza-make.jpg';
+
 export default function PizzaForm() {
 
   // Set the state for the pizza object
   const [ pizza, setPizza ] = useState({name: ""});
+  console.log(pizza);
 
   // Set the state for the errors for validation
   const [ errors, setErrors ] = useState({});
@@ -23,6 +27,12 @@ export default function PizzaForm() {
 
   // Set a state for the post data
   const [post, setPost] = useState(null);
+
+  // Animation whenever the component loads
+  useEffect(() => {
+    gsap.from("#pizza-form", {opacity: 0, scale: 1.1, duration: 1,});
+    gsap.from("#pizza-form form", {opacity: 0, scale: 1.1, duration: 1, delay: 1});
+  }, []);
 
   // Handle the change of form fields
   const handleChange = (e) => {
@@ -41,6 +51,7 @@ export default function PizzaForm() {
     sausage: yup.boolean(),
     ham: yup.boolean(),
     onion: yup.boolean(),
+    "glutten-free": yup.boolean(),
     instructions: yup.string(),
   });
 
@@ -70,9 +81,6 @@ export default function PizzaForm() {
   // Handle Form Submission
   const handleSubmission = (e) => {
     e.preventDefault();
-
-    console.log("pizza", pizza);
-    console.log("errors", errors);
 
     // Check for valudation first
     formErrors();
@@ -105,11 +113,11 @@ export default function PizzaForm() {
       } else {
         // Add a little animation if not valid
         const errorAnim = gsap.timeline({ repeat: 0, repeatDelay: 0 });
-        errorAnim.to(".pizza-form", { x: -50, duration: 0.2 });
-        errorAnim.to(".pizza-form", { x: 50, duration: 0.2 });
-        errorAnim.to(".pizza-form", { x: -20, duration: 0.2 });
-        errorAnim.to(".pizza-form", { x: 20, duration: 0.2 });
-        errorAnim.to(".pizza-form", { x: 0, duration: 0.2 });
+        errorAnim.to("#pizza-form form", { x: -50, duration: 0.2 });
+        errorAnim.to("#pizza-form form", { x: 50, duration: 0.2 });
+        errorAnim.to("#pizza-form form", { x: -20, duration: 0.2 });
+        errorAnim.to("#pizza-form form", { x: 20, duration: 0.2 });
+        errorAnim.to("#pizza-form form", { x: 0, duration: 0.2 });
 
         // Disable the submit button while the animation plays
         setDisableSubmit(true);
@@ -121,73 +129,117 @@ export default function PizzaForm() {
     });
   }
 
+  const toggleBtn = (fieldName) => {
+
+    if(pizza[fieldName] === false || pizza[fieldName] === undefined) {
+      gsap.to("#pizza-form .toggle-btn", {x: 20, duration: 0.5});
+      gsap.to("#pizza-form .toggle-bar", {backgroundColor: "green", duration: 0.5});
+      setPizza({...pizza, [fieldName]: true});
+    } else {
+      gsap.to("#pizza-form .toggle-btn", {x: 0, duration: 0.5});
+      gsap.to("#pizza-form .toggle-bar", {backgroundColor: "#ed3844", duration: 0.5});
+      setPizza({...pizza, [fieldName]: false});
+    }
+    
+  }
+
   return (
-    <div className="pizza-form">
+    <div id="pizza-form">
       <form onSubmit={handleSubmission}>
         <h3>Build Your Own Pizza</h3>
 
-        <FormField
-          name="name"
-          type="text"
-          label="Name"
-          value={pizza.name !== undefined ? pizza.name : ""}
-          handleChange={handleChange}
-          error={errors.name}
-        />
+        <img src={pizzaImg} alt="Make Pizza" />
 
-        <FormField
-          name="size"
-          type="select"
-          label="Select Pizza Size"
-          value={pizza.size !== undefined ? pizza.size : ""}
-          selections={["Small", "Medium", "Large"]}
-          handleChange={handleChange}
-        />
+        <fieldset>
+          <legend>User Information</legend>
 
-        <FormField
-          name="pepperoni"
-          type="checkbox"
-          label="Pepperoni"
-          value={pizza.pepperoni !== undefined ? pizza.pepperoni : ""}
-          handleChange={handleChange}
-        />
+          <FormField
+            name="name"
+            type="text"
+            label="Name"
+            value={pizza.name !== undefined ? pizza.name : ""}
+            handleChange={handleChange}
+            error={errors.name}
+          />
+        </fieldset>
 
-        <FormField
-          name="sausage"
-          type="checkbox"
-          label="Sausage"
-          value={pizza.sausage !== undefined ? pizza.sausage : ""}
-          handleChange={handleChange}
-        />
+        <fieldset>
+          <legend>Pizza Size</legend>
 
-        <FormField
-          name="ham"
-          type="checkbox"
-          label="Ham"
-          value={pizza.ham !== undefined ? pizza.ham : ""}
-          handleChange={handleChange}
-        />
+          <FormField
+            name="size"
+            type="select"
+            label="Select Pizza Size"
+            value={pizza.size !== undefined ? pizza.size : ""}
+            selections={["Small", "Medium", "Large"]}
+            handleChange={handleChange}
+          />
+        </fieldset>
 
-        <FormField
-          name="onion"
-          type="checkbox"
-          label="Onion"
-          value={pizza.onion !== undefined ? pizza.onion : ""}
-          handleChange={handleChange}
-        />
+        <fieldset className="checkboxes">
+          <legend>Toppings</legend>
 
-        <FormField
-          name="instructions"
-          type="textarea"
-          label="Enter Special Instructions"
-          value={pizza.instructions !== undefined ? pizza.instructions : ""}
-          handleChange={handleChange}
-        />
+          <FormField
+            name="pepperoni"
+            type="checkbox"
+            label="Pepperoni"
+            value={pizza.pepperoni !== undefined ? pizza.pepperoni : ""}
+            handleChange={handleChange}
+          />
 
-        <input type="submit" value="Submit Form" disabled={disableSubmit} />
+          <FormField
+            name="sausage"
+            type="checkbox"
+            label="Sausage"
+            value={pizza.sausage !== undefined ? pizza.sausage : ""}
+            handleChange={handleChange}
+          />
+
+          <FormField
+            name="ham"
+            type="checkbox"
+            label="Ham"
+            value={pizza.ham !== undefined ? pizza.ham : ""}
+            handleChange={handleChange}
+          />
+
+          <FormField
+            name="onion"
+            type="checkbox"
+            label="Onion"
+            value={pizza.onion !== undefined ? pizza.onion : ""}
+            handleChange={handleChange}
+          />
+        </fieldset>
+
+        <fieldset>
+          <legend>Choice of Substitute</legend>
+
+          <div className="toggle-field" onClick={() => toggleBtn("glutten-free")}>
+            <div className="toggle-switch">
+              <div className="toggle-btn"></div>
+              <div className="toggle-bar"></div>
+            </div>
+            <label>Glutten Free Crust (+ $1.00)</label>
+          </div>          
+        </fieldset>
+
+        <fieldset>
+          <legend>Special Instructions</legend>
+
+          <FormField
+            name="instructions"
+            type="textarea"
+            label="Anything to add?"
+            value={pizza.instructions !== undefined ? pizza.instructions : ""}
+            handleChange={handleChange}
+          />
+        </fieldset>
+
+        <input type="submit" value="Submit Form" disabled={disableSubmit} data-cy="submit" />
+
+        {post !== null && <pre>{JSON.stringify(post, null, 2)}</pre>}
       </form>
-
-      {post !== null && <pre>{JSON.stringify(post, null, 2)}</pre>}
     </div>
   )
 }

@@ -43,16 +43,28 @@ export default function ThankYou(props) {
               
               <span>Here are your order details:</span>
 
-              {props.order !== null && Object.keys(props.order).map(key =>{ 
-                  let keyVal = props.order[key];
+              <div className="order-details">
+                {props.order !== null && Object.keys(props.order).map(key =>{ 
+                    let keyVal = props.order[key];
+                    let propName = key;
 
-                  if(props.order[key] === true) {
-                    keyVal = "yes";
+                    if(props.order[key] === true) {
+                      keyVal = "yes";
+                    }
+
+                    if(propName === "id") {
+                      propName = "Order ID"
+                    }
+
+                    if(propName === "createdAt") {
+                      keyVal = new Date();
+                      keyVal = keyVal.toLocaleDateString("en-US");
+                    }
+
+                    return (<p value={key} key={key}>{propName}: {keyVal}</p>)
                   }
-
-                  return (<span value={key} key={key}>{key}: {keyVal}</span>)
-                }
-              )}
+                )}
+              </div>
             </div>
 
             <button onClick={newPizzaFunc}>Order Another One?</button>

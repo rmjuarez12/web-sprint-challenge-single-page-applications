@@ -85,7 +85,6 @@ header .logo span {
 }
 
 .slider .slide {
-  width: 100vw;
   min-height: 100vh;
   background-position: center;
   background-size: cover;
@@ -315,4 +314,18 @@ header .logo span {
 #pizza-form .toggle-field label {
   display: block;
   cursor: pointer;
+}
+
+.order-details {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.order-details p {
+  font-size: 20px;
+  width: 45%;
+  display: block;
+  margin-bottom: 15px;
 }

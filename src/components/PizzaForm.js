@@ -10,7 +10,7 @@ import ThankYou from "./ThankYou";
 
 // Import Assets
 import pizzaImg from './../Assets/pizza-make.jpg';
-import { Route, useRouteMatch, Link, Redirect } from 'react-router-dom';
+import { Route, Link, Redirect } from 'react-router-dom';
 
 export default function PizzaForm(props) {
 
@@ -162,7 +162,7 @@ export default function PizzaForm(props) {
   return (
     <div id="pizza-form-page">
       <Route exact path="/pizza/thanks">
-        <ThankYou order={post} resetForm={resetForm} />
+        <ThankYou order={post} resetForm={resetForm} serverError={serverError} />
       </Route> 
       
       <div id="pizza-form">

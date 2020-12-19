@@ -1,38 +1,331 @@
-.App {
-  text-align: center;
+/* Import Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Raleway:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swa");
+
+/* General styles */
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background: black;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Raleway", sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a,
+button {
+  transition: 0.3s all;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+main {
+  position: relative;
+  z-index: 100;
+}
+
+/* Header Styles */
+
+header {
+  -webkit-box-shadow: 2px 2px 15px 1px #000000;
+  box-shadow: 2px 2px 15px 1px #000000;
+  border-bottom: #ed3844 5px solid;
+  z-index: 200;
+  position: relative;
+  background-color: black;
+}
+
+header nav ul {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  list-style-type: none;
+  align-items: stretch;
+}
+
+header nav a {
+  text-decoration: none;
+  padding: 10px 20px;
+  font-weight: bold;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+header nav a:hover,
+header nav a.active {
+  background: #ed3844;
+  color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+}
+
+header .logo {
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+header .logo span {
+  color: #ed3844;
+}
+
+/* Homepage Styles */
+
+.slider {
+  background-color: black;
+}
+
+.slider .slide {
+  min-height: 100vh;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider .layer {
+  text-align: center;
+}
+
+.slider .layer h3,
+.slider .layer .heading {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px 10px;
+  font-size: 45px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.slider .layer h3 span,
+.slider .layer .heading span {
+  font-size: 35px;
+  display: block;
+  text-transform: capitalize !important;
+  padding-bottom: 5px;
+}
+
+.slider .layer a,
+.slider .layer button {
+  background: #fff;
+  padding: 10px 25px;
+  font-size: 30px;
+  border: #ed3844 5px solid;
+  color: #ed3844;
+  font-weight: bold;
+  display: block;
+  width: 380px;
+  margin: -10px auto 0;
+  cursor: pointer;
+}
+
+.slider .layer a:hover,
+.slider .layer button:hover {
+  transform: scale(1.1);
+}
+
+/* Form Page Styles */
+
+#pizza-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  overflow: hidden;
+  background: black url("Assets/pizza-back.jpg") center no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+#pizza-form form {
+  width: 500px;
+  display: block;
+  background: white;
+  border: 5px solid #ed3844;
+  -webkit-box-shadow: 2px 2px 15px 1px #000000;
+  box-shadow: 2px 2px 15px 1px #000000;
+}
+
+#pizza-form form img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+#pizza-form h3 {
+  background: #ed3844;
+  color: white;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 20px;
+}
+
+#pizza-form label {
+  width: 100%;
+  display: block;
+  padding: 10px;
+}
+
+#pizza-form fieldset legend {
+  width: 100%;
+  background: white;
+  color: black;
+  background: #ed3844;
+  color: white;
+  font-size: 20px;
+  font-family: "Raleway", sans-serif;
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 2px;
+}
+
+#pizza-form fieldset legend a {
+  color: white;
+  padding: 15px;
+  width: 100%;
+  display: block;
+}
+
+#pizza-form fieldset input,
+#pizza-form fieldset select,
+#pizza-form fieldset textarea {
+  width: 100%;
+  display: block;
+  margin-top: 5px;
+  padding: 5px 10px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+
+#pizza-form .invalid input,
+#pizza-form .invalid select {
+  background: #ed3844;
+  border-color: #ed3844 !important;
+  color: white;
+}
+
+#pizza-form .errors {
+  background: #ed3844;
+  padding: 20px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin: 5px;
+}
+
+.error-mssg {
+  display: none;
+}
+
+#pizza-form .checkboxes input {
+  width: auto !important;
+  display: inline-block;
+}
+
+#pizza-form .checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#pizza-form .checkboxes label {
+  width: 45%;
+}
+
+#pizza-form input[type="submit"] {
+  background: #ed3844;
+  width: 300px;
+  margin: 15px auto;
+  padding: 5px 20px;
+  border: #ed3844 solid 1px;
+  border-radius: 5px;
+  color: white;
+  font-family: "Raleway", sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: block;
+  font-size: 20px;
+  transition: 0.3s all;
+}
+
+#pizza-form input[type="submit"]:hover {
+  color: #ed3844;
+  background: white;
+}
+
+#pizza-form .toggle-switch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 45px;
+  overflow: hidden;
+  margin: 10px;
+}
+
+#pizza-form .toggle-btn {
+  height: 30px;
+  width: 20px;
+  display: block;
+  background: grey;
+  border: black 2px solid;
+  position: relative;
+  z-index: 10;
+  transition: 0.3s all;
+}
+
+#pizza-form .toggle-field.active .toggle-btn {
+  transform: translateX(19px);
+}
+
+#pizza-form .toggle-bar {
+  width: 100%;
+  height: 20px;
+  background: #ed3844;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  transition: 0.3s all;
+}
+
+#pizza-form .toggle-field.active .toggle-bar {
+  background: green;
+}
+
+#pizza-form .toggle-field {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+#pizza-form .toggle-field label {
+  display: block;
+  cursor: pointer;
+}
+
+.order-details {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.order-details p {
+  font-size: 20px;
+  width: 45%;
+  display: block;
+  margin-bottom: 15px;
 }
